@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.function.IntPredicate;
 
@@ -43,7 +44,7 @@ public static void main(String[] args) {
 	
 		Exercise.LambdaSingleStatementExample();
 		Exercise.lambdaMultiStatementExample();
-
+		
 		List<Data> list = new ArrayList<Data>();
 		list.add(new Data("pullup"));
 		list.add(new Data("pushup"));
