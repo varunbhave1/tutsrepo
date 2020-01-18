@@ -1,7 +1,10 @@
 package com.udemy.app.ws.service.impl;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -10,8 +13,8 @@ import org.springframework.stereotype.Service;
 import com.udemy.app.ws.io.entity.UserEntity;
 import com.udemy.app.ws.repository.UserRepository;
 import com.udemy.app.ws.service.UserService;
-import com.udemy.app.ws.shared.dto.UserDto;
 import com.udemy.app.ws.shared.Utils;
+import com.udemy.app.ws.shared.dto.UserDto;
 
 
 /* @Service : This annotation serves as a specialization of @Component,
@@ -57,9 +60,15 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 	
-		return null;
+		UserEntity storedEntity = userRepository.findByEmail(email);
+		
+		if(storedEntity==null) {
+			throw new UsernameNotFoundException("Invalid username => "+email);
+		}
+		
+		return new User(storedEntity.getEmail(),storedEntity.getEncryptedPassword(),new ArrayList<>());
 	}
 
 }
