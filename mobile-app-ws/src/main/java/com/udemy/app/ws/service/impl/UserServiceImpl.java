@@ -1,5 +1,6 @@
 package com.udemy.app.ws.service.impl;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 import org.springframework.beans.BeanUtils;
@@ -11,7 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.udemy.app.ws.io.entity.UserEntity;
-import com.udemy.app.ws.repository.UserRepository;
+import com.udemy.app.ws.io.repository.UserRepository;
 import com.udemy.app.ws.service.UserService;
 import com.udemy.app.ws.shared.Utils;
 import com.udemy.app.ws.shared.dto.UserDto;
@@ -20,6 +21,7 @@ import com.udemy.app.ws.shared.dto.UserDto;
 /* @Service : This annotation serves as a specialization of @Component,
  * 			  allowing for implementation classes to be auto-detected through class-path scanning.
  */
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -31,6 +33,7 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
+	
 	
 	@Override
 	public UserDto createUser(UserDto userDto) {
@@ -69,6 +72,37 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		return new User(storedEntity.getEmail(),storedEntity.getEncryptedPassword(),new ArrayList<>());
+	}
+	
+	@Override
+	public UserDto getUser(String email) {
+		
+		UserEntity userEntity = userRepository.findByEmail(email);
+		
+		if(userEntity==null) {
+			throw new UsernameNotFoundException(email);
+		}
+		
+		UserDto returnValue = new UserDto();
+		BeanUtils.copyProperties(userEntity, returnValue);
+		
+		return returnValue;
+	}
+
+	@Override
+	public UserDto getUserByUserId(String id) {
+		
+		UserEntity userEntity = userRepository.findByUserId(id);
+		
+		if(userEntity==null) {
+			throw new UsernameNotFoundException(id);
+		}
+		
+		UserDto userDto = new UserDto();
+		BeanUtils.copyProperties(userEntity, userDto);
+		
+		return userDto;
+		
 	}
 
 }
