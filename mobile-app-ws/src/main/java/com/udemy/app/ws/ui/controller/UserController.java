@@ -3,6 +3,7 @@ package com.udemy.app.ws.ui.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -66,11 +67,15 @@ public class UserController {
 			throw new UserServiceException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
 		}*/
 		
-		UserDto userDto = new UserDto();
-		BeanUtils.copyProperties(userDetailsModel, userDto);
-		UserDto createdUser =  userService.createUser(userDto);
-		BeanUtils.copyProperties(createdUser, userResponseVal);
+		//Using modelMapper instead of BeanUtils.copyProperties
+		//UserDto userDto = new UserDto();
+		//BeanUtils.copyProperties(userDetailsModel, userDto);
+		ModelMapper modelMapper = new ModelMapper();
+		UserDto userDto = modelMapper.map(userDetailsModel, UserDto.class);
 		
+		UserDto createdUser =  userService.createUser(userDto);
+		//BeanUtils.copyProperties(createdUser, userResponseVal);
+		userResponseVal = modelMapper.map(createdUser, UserRest.class);
 		return userResponseVal;
 	}
 	

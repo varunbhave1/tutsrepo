@@ -12,6 +12,8 @@ public class Utils {
 	private final String ALPHABETNUMERIC = "0123456789ABCDEFJHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 	private final int ITERATIONS = 10000;
 	private final int KEY_LENGTH = 256;
+	private final String USER_ID_PREFIX = "USR-";
+	private final String ADDRESS_ID_PREFIX = "ADR-";
 	
 	/**
 	 * @param length
@@ -19,7 +21,13 @@ public class Utils {
 	 */
 	public String generateUserId(int length) {
 	
-		return generateRandomString(length);
+		return generateRandomString(USER_ID_PREFIX,length);
+		
+	}
+	
+	public String generateAddressId(int length) {
+		
+		return generateRandomString(ADDRESS_ID_PREFIX,length);
 		
 	}
 	
@@ -28,7 +36,7 @@ public class Utils {
 	 * @param length
 	 * @return
 	 */
-	private String generateRandomString(int length) {
+	private String generateRandomString(final String PREFIX, int length) {
 		
 		StringBuilder returnValue = new StringBuilder(length);
 		
@@ -36,7 +44,7 @@ public class Utils {
 			returnValue.append(ALPHABETNUMERIC.charAt(RANDOM.nextInt(ALPHABETNUMERIC.length())));
 		}
 		
-		return returnValue.toString();
+		return PREFIX+returnValue.toString();
 	}
 	
 

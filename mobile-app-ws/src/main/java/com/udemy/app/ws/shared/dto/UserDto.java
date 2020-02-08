@@ -1,21 +1,24 @@
 package com.udemy.app.ws.shared.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class UserDto implements Serializable {
 
 	private static final long serialVersionUID = 6133304919852414582L;
 	
+	private long id;
 	private String userId;
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String password;
-	
 	private String encryptedPassword;
 	private String emailVerificationToken;
 	private boolean emailVerificationStatus=false;
-	
+	private List<AddressDto> addresses;
+
+
 	
 	public String getFirstName() {
 		return firstName;
@@ -65,6 +68,18 @@ public class UserDto implements Serializable {
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+	public List<AddressDto> getAddresses() {
+		return addresses;
+	}
+	public void setAddresses(List<AddressDto> addresses) {
+		this.addresses = addresses;
+	}
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
 	}
 	
 	
